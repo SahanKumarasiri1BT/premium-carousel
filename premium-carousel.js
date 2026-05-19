@@ -338,15 +338,15 @@ var v = /* @__PURE__ */ i(((e) => {
 	contain: "object-contain",
 	fill: "object-fill"
 };
-function S({ activeItem: e, initialVideoSrc: t, isMuted: r, onToggleMute: i, videoRef: a }) {
-	let o = n(null);
+function S({ activeItem: e, isMuted: t, onToggleMute: r, videoRef: i }) {
+	let a = n(null);
 	_({
-		elementRef: o,
+		elementRef: a,
 		mediaItem: e
 	});
-	let c = e.type === "video", l = e.resizeMode ?? "cover", u = x[l];
+	let o = e.type === "video", c = e.resizeMode ?? "cover", l = x[c];
 	return /* @__PURE__ */ (0, b.jsx)("main", {
-		ref: o,
+		ref: a,
 		className: "relative overflow-hidden rounded-3xl border border-slate-800 bg-black shadow-[0_20px_50px_rgba(0,0,0,0.8)]",
 		children: /* @__PURE__ */ (0, b.jsxs)("div", {
 			className: "relative aspect-video w-full",
@@ -357,28 +357,30 @@ function S({ activeItem: e, initialVideoSrc: t, isMuted: r, onToggleMute: i, vid
 					children: e.partner.name
 				}),
 				/* @__PURE__ */ (0, b.jsxs)("div", {
-					className: `absolute inset-0 h-full w-full ${c ? "" : "hidden"}`,
+					className: `absolute inset-0 h-full w-full ${o ? "" : "hidden"}`,
 					children: [/* @__PURE__ */ (0, b.jsx)("video", {
 						id: s,
-						className: `video-js vjs-default-skin h-full w-full ${u}`,
+						className: `video-js vjs-default-skin h-full w-full ${l}`,
 						muted: !0,
+						autoPlay: !0,
 						playsInline: !0,
-						ref: a,
-						style: { objectFit: l },
-						children: t ? /* @__PURE__ */ (0, b.jsx)("source", {
-							src: t,
+						preload: "auto",
+						ref: i,
+						style: { objectFit: c },
+						children: e.type === "video" && e.src ? /* @__PURE__ */ (0, b.jsx)("source", {
+							src: e.src,
 							type: "video/mp4"
 						}) : null
-					}), c && /* @__PURE__ */ (0, b.jsxs)("div", {
+					}), o && /* @__PURE__ */ (0, b.jsxs)("div", {
 						className: "absolute bottom-4 left-4 z-30 flex items-center gap-2 rounded-full bg-slate-950/80 p-2 shadow-xl backdrop-blur-md",
 						children: [/* @__PURE__ */ (0, b.jsx)("button", {
 							type: "button",
-							onClick: i,
-							"aria-label": r ? "Unmute video" : "Mute video",
+							onClick: r,
+							"aria-label": t ? "Unmute video" : "Mute video",
 							className: "cursor-pointer rounded-full border border-white/20 bg-white/10 p-2 text-white transition hover:bg-white/20",
 							children: /* @__PURE__ */ (0, b.jsx)("span", {
 								className: "text-lg",
-								children: r ? "🔇" : "🔊"
+								children: t ? "🔇" : "🔊"
 							})
 						}), e.clickThroughUrl && /* @__PURE__ */ (0, b.jsx)("button", {
 							type: "button",
@@ -392,11 +394,11 @@ function S({ activeItem: e, initialVideoSrc: t, isMuted: r, onToggleMute: i, vid
 						})]
 					})]
 				}),
-				!c && /* @__PURE__ */ (0, b.jsxs)(b.Fragment, { children: [/* @__PURE__ */ (0, b.jsx)("img", {
-					className: `animate-fade-in absolute inset-0 z-10 h-full w-full ${u}`,
+				!o && /* @__PURE__ */ (0, b.jsxs)(b.Fragment, { children: [/* @__PURE__ */ (0, b.jsx)("img", {
+					className: `animate-fade-in absolute inset-0 z-10 h-full w-full ${l}`,
 					src: e.src,
 					alt: e.title,
-					style: { objectFit: l }
+					style: { objectFit: c }
 				}), e.clickThroughUrl && /* @__PURE__ */ (0, b.jsx)("div", {
 					className: "absolute bottom-4 left-4 z-30 flex items-center gap-2 rounded-full bg-slate-950/80 p-2 shadow-xl backdrop-blur-md",
 					children: /* @__PURE__ */ (0, b.jsx)("button", {
@@ -607,8 +609,10 @@ function O(i = f) {
 		}), e.type === "video") w.current && (F(), w.current.src({
 			src: e.src,
 			type: "video/mp4"
-		}), w.current.play().catch((e) => {
-			e.name !== "AbortError" && R();
+		}), w.current.load(), w.current.ready(() => {
+			w.current?.play().catch((e) => {
+				e.name !== "AbortError" && R();
+			});
 		}), e.playDurationMs && e.playDurationMs > 0 && (M.current = window.setTimeout(() => {
 			R();
 		}, e.playDurationMs)));
@@ -676,7 +680,7 @@ function O(i = f) {
 //#endregion
 //#region src/components/CarouselPlayer.tsx
 function k({ config: e, className: t = "" }) {
-	let { activeItem: n, interests: r, isVideoJsLoaded: i, isMuted: a, markCurrentSlideInterested: o, playlist: s, showPopup: c, toggleMute: l, videoRef: u } = O(e), d = s.find((e) => e.type === "video")?.src ?? "";
+	let { activeItem: n, interests: r, isVideoJsLoaded: i, isMuted: a, markCurrentSlideInterested: o, showPopup: s, toggleMute: c, videoRef: l } = O(e);
 	return i ? /* @__PURE__ */ (0, b.jsx)("div", {
 		className: `flex min-h-screen flex-col items-center justify-center bg-slate-950 p-4 text-white ${t}`.trim(),
 		children: /* @__PURE__ */ (0, b.jsxs)("div", {
@@ -685,12 +689,11 @@ function k({ config: e, className: t = "" }) {
 				className: "group relative",
 				children: [/* @__PURE__ */ (0, b.jsx)(C, {
 					activeItem: n,
-					initialVideoSrc: d,
 					isMuted: a,
-					onToggleMute: l,
-					videoRef: u
+					onToggleMute: c,
+					videoRef: l
 				}), /* @__PURE__ */ (0, b.jsx)(T, {
-					isVisible: c,
+					isVisible: s,
 					onInterest: o
 				})]
 			}), /* @__PURE__ */ (0, b.jsx)(w, { interests: r })]
