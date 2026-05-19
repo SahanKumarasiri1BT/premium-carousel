@@ -366,11 +366,7 @@ function S({ activeItem: e, isMuted: t, onToggleMute: r, videoRef: i }) {
 						playsInline: !0,
 						preload: "auto",
 						ref: i,
-						style: { objectFit: c },
-						children: e.type === "video" && e.src ? /* @__PURE__ */ (0, b.jsx)("source", {
-							src: e.src,
-							type: "video/mp4"
-						}) : null
+						style: { objectFit: c }
 					}), o && /* @__PURE__ */ (0, b.jsxs)("div", {
 						className: "absolute bottom-4 left-4 z-30 flex items-center gap-2 rounded-full bg-slate-950/80 p-2 shadow-xl backdrop-blur-md",
 						children: [/* @__PURE__ */ (0, b.jsx)("button", {
@@ -418,13 +414,12 @@ function S({ activeItem: e, isMuted: t, onToggleMute: r, videoRef: i }) {
 }
 //#endregion
 //#region src/components/MediaStage.tsx
-function C({ activeItem: e, initialVideoSrc: t, isMuted: n, onToggleMute: r, videoRef: i }) {
+function C({ activeItem: e, isMuted: t, onToggleMute: n, videoRef: r }) {
 	return /* @__PURE__ */ (0, b.jsx)(S, {
 		activeItem: e,
-		initialVideoSrc: t,
-		isMuted: n,
-		onToggleMute: r,
-		videoRef: i
+		isMuted: t,
+		onToggleMute: n,
+		videoRef: r
 	});
 }
 //#endregion
@@ -606,10 +601,10 @@ function O(i = f) {
 		let e = i.playlist[o];
 		if (A.current = window.requestAnimationFrame(() => {
 			b(!1), m(0), d(0), l(e.type === "video"), A.current = null;
-		}), e.type === "video") w.current && (F(), w.current.src({
+		}), e.type === "video") w.current && (F(), w.current.pause(), w.current.src([{
 			src: e.src,
 			type: "video/mp4"
-		}), w.current.load(), w.current.ready(() => {
+		}]), w.current.ready(() => {
 			w.current?.play().catch((e) => {
 				e.name !== "AbortError" && R();
 			});
