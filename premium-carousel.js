@@ -522,25 +522,8 @@ function E() {
 	});
 }
 //#endregion
-//#region src/components/ProgressNavigation.tsx
-function D({ getProgressPercentage: e, onSelectSlide: t, playlist: n }) {
-	return /* @__PURE__ */ (0, b.jsx)("div", {
-		className: "absolute bottom-6 left-1/2 z-40 flex w-[90%] -translate-x-1/2 justify-center gap-2",
-		children: n.map((n, r) => /* @__PURE__ */ (0, b.jsx)("button", {
-			"aria-label": `Show ${n.title}`,
-			className: "relative h-1 max-w-[100px] flex-grow cursor-pointer overflow-hidden rounded-full bg-white/30 transition-transform hover:scale-y-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white",
-			onClick: () => t(r),
-			type: "button",
-			children: /* @__PURE__ */ (0, b.jsx)("span", {
-				className: "absolute left-0 top-0 h-full bg-white transition-all duration-75",
-				style: { width: `${e(r)}%` }
-			})
-		}, n.title))
-	});
-}
-//#endregion
 //#region src/hooks/useVideoJsLoader.ts
-function O() {
+function D() {
 	let [e, n] = r(() => !!window.videojs);
 	return t(() => {
 		let e = !0, t = document.getElementById(l);
@@ -567,13 +550,13 @@ function O() {
 }
 //#endregion
 //#region src/hooks/useMediaCarousel.ts
-function k(i = f) {
-	let a = O(), [o, s] = r(0), [c, l] = r(i.playlist[0].type === "video"), [u, d] = r(0), [p, m] = r(0), [h, g] = r(!1), [_, v] = r(!0), [y, b] = r(!1), [x, S] = r([]), C = n(null), w = n(null), T = n(o), E = n(0), D = n(null), k = n(null), A = n(null), j = n(null), M = n(null);
+function O(i = f) {
+	let a = D(), [o, s] = r(0), [c, l] = r(i.playlist[0].type === "video"), [u, d] = r(0), [p, m] = r(0), [h, g] = r(!1), [_, v] = r(!0), [y, b] = r(!1), [x, S] = r([]), C = n(null), w = n(null), T = n(o), E = n(0), O = n(null), k = n(null), A = n(null), j = n(null), M = n(null);
 	t(() => {
 		T.current = o;
 	}, [o]);
 	let N = e(() => {
-		D.current &&= (window.clearTimeout(D.current), null), k.current &&= (window.clearTimeout(k.current), null);
+		O.current &&= (window.clearTimeout(O.current), null), k.current &&= (window.clearTimeout(k.current), null);
 	}, []), P = e(() => {
 		j.current &&= (window.cancelAnimationFrame(j.current), null);
 	}, []), F = e(() => {
@@ -643,7 +626,7 @@ function k(i = f) {
 			};
 			j.current = window.requestAnimationFrame(t);
 		}
-		return D.current = window.setTimeout(B, i.settings.popupDelayMs), () => {
+		return O.current = window.setTimeout(B, i.settings.popupDelayMs), () => {
 			N(), P(), F(), I();
 		};
 	}, [
@@ -692,35 +675,27 @@ function k(i = f) {
 }
 //#endregion
 //#region src/components/CarouselPlayer.tsx
-function A({ config: e, className: t = "" }) {
-	let { activeItem: n, getProgressPercentage: r, interests: i, isVideoJsLoaded: a, isMuted: o, jumpToSlide: s, markCurrentSlideInterested: c, playlist: l, showPopup: u, toggleMute: d, videoRef: f } = k(e), p = l.find((e) => e.type === "video")?.src ?? "";
-	return a ? /* @__PURE__ */ (0, b.jsx)("div", {
+function k({ config: e, className: t = "" }) {
+	let { activeItem: n, interests: r, isVideoJsLoaded: i, isMuted: a, markCurrentSlideInterested: o, playlist: s, showPopup: c, toggleMute: l, videoRef: u } = O(e), d = s.find((e) => e.type === "video")?.src ?? "";
+	return i ? /* @__PURE__ */ (0, b.jsx)("div", {
 		className: `flex min-h-screen flex-col items-center justify-center bg-slate-950 p-4 text-white ${t}`.trim(),
 		children: /* @__PURE__ */ (0, b.jsxs)("div", {
 			className: "w-full max-w-4xl",
 			children: [/* @__PURE__ */ (0, b.jsxs)("div", {
 				className: "group relative",
-				children: [
-					/* @__PURE__ */ (0, b.jsx)(C, {
-						activeItem: n,
-						initialVideoSrc: p,
-						isMuted: o,
-						onToggleMute: d,
-						videoRef: f
-					}),
-					/* @__PURE__ */ (0, b.jsx)(D, {
-						getProgressPercentage: r,
-						onSelectSlide: s,
-						playlist: l
-					}),
-					/* @__PURE__ */ (0, b.jsx)(T, {
-						isVisible: u,
-						onInterest: c
-					})
-				]
-			}), /* @__PURE__ */ (0, b.jsx)(w, { interests: i })]
+				children: [/* @__PURE__ */ (0, b.jsx)(C, {
+					activeItem: n,
+					initialVideoSrc: d,
+					isMuted: a,
+					onToggleMute: l,
+					videoRef: u
+				}), /* @__PURE__ */ (0, b.jsx)(T, {
+					isVisible: c,
+					onInterest: o
+				})]
+			}), /* @__PURE__ */ (0, b.jsx)(w, { interests: r })]
 		})
 	}) : /* @__PURE__ */ (0, b.jsx)(E, {});
 }
 //#endregion
-export { A as CarouselPlayer, C as MediaStage, k as useMediaCarousel };
+export { k as CarouselPlayer, C as MediaStage, O as useMediaCarousel };
