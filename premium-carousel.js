@@ -9,7 +9,8 @@ var i = (e, t) => () => (t || (e((t = { exports: {} }).exports, t), e = null), t
 		popupDelayMs: 3e3,
 		popupVisibleDurationMs: 5e3,
 		defaultAspectRatio: "16:9",
-		showAspectRatioSelector: !1
+		showAspectRatioSelector: !1,
+		backgroundColor: "white"
 	},
 	playlist: [
 		{
@@ -693,8 +694,11 @@ function A(i = f) {
 //#region src/components/CarouselPlayer.tsx
 function j({ config: e, className: t = "" }) {
 	let { activeItem: n, interests: r, isVideoJsLoaded: i, isMuted: a, markCurrentSlideInterested: o, showPopup: s, toggleMute: c, videoRef: l } = A(e);
-	return i ? /* @__PURE__ */ (0, b.jsx)("div", {
-		className: `flex min-h-screen flex-col items-center justify-center bg-slate-950 p-4 text-white ${t}`.trim(),
+	if (!i) return /* @__PURE__ */ (0, b.jsx)(O, {});
+	let u = e?.settings?.backgroundColor || "white";
+	return /* @__PURE__ */ (0, b.jsx)("div", {
+		className: `flex h-full w-full flex-col items-center justify-center p-4 text-white ${t}`.trim(),
+		style: { backgroundColor: u },
 		children: /* @__PURE__ */ (0, b.jsxs)("div", {
 			className: "w-full max-w-4xl",
 			children: [/* @__PURE__ */ (0, b.jsxs)("div", {
@@ -711,7 +715,7 @@ function j({ config: e, className: t = "" }) {
 				})]
 			}), /* @__PURE__ */ (0, b.jsx)(E, { interests: r })]
 		})
-	}) : /* @__PURE__ */ (0, b.jsx)(O, {});
+	});
 }
 //#endregion
 export { j as CarouselPlayer, T as MediaStage, A as useMediaCarousel };
