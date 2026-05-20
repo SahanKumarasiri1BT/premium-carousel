@@ -7,7 +7,9 @@ var i = (e, t) => () => (t || (e((t = { exports: {} }).exports, t), e = null), t
 	settings: {
 		defaultImageDurationMs: 6e3,
 		popupDelayMs: 3e3,
-		popupVisibleDurationMs: 5e3
+		popupVisibleDurationMs: 5e3,
+		defaultAspectRatio: "16:9",
+		showAspectRatioSelector: !1
 	},
 	playlist: [
 		{
@@ -337,19 +339,29 @@ var v = /* @__PURE__ */ i(((e) => {
 	cover: "object-cover",
 	contain: "object-contain",
 	fill: "object-fill"
+}, S = {
+	"16:9": "max-w-4xl",
+	"4:3": "max-w-2xl",
+	"1:1": "max-w-xl",
+	"9:16": "max-w-sm"
+}, C = {
+	"16:9": "aspect-[16/9]",
+	"4:3": "aspect-[4/3]",
+	"1:1": "aspect-[1/1]",
+	"9:16": "aspect-[9/16]"
 };
-function S({ activeItem: e, isMuted: t, onToggleMute: r, videoRef: i }) {
-	let a = n(null);
+function w({ activeItem: e, isMuted: t, onToggleMute: r, videoRef: i, aspectRatio: a }) {
+	let o = n(null);
 	_({
-		elementRef: a,
+		elementRef: o,
 		mediaItem: e
 	});
-	let o = e.type === "video", c = e.resizeMode ?? "cover", l = x[c];
+	let c = e.type === "video", l = e.resizeMode ?? "cover", u = x[l];
 	return /* @__PURE__ */ (0, b.jsx)("main", {
-		ref: a,
-		className: "relative overflow-hidden rounded-3xl border border-slate-800 bg-black shadow-[0_20px_50px_rgba(0,0,0,0.8)]",
+		ref: o,
+		className: `mx-auto w-full ${S[a]} relative overflow-hidden rounded-3xl border border-slate-800 bg-black shadow-[0_20px_50px_rgba(0,0,0,0.8)] transition-all duration-500 ease-in-out`,
 		children: /* @__PURE__ */ (0, b.jsxs)("div", {
-			className: "relative aspect-video w-full",
+			className: `relative w-full ${C[a]} transition-all duration-500 ease-in-out`,
 			children: [
 				e.partner && /* @__PURE__ */ (0, b.jsx)("div", {
 					className: "absolute left-4 top-4 z-20 rounded-full border border-white/10 bg-slate-950/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-slate-100 shadow-lg",
@@ -357,17 +369,17 @@ function S({ activeItem: e, isMuted: t, onToggleMute: r, videoRef: i }) {
 					children: e.partner.name
 				}),
 				/* @__PURE__ */ (0, b.jsxs)("div", {
-					className: `absolute inset-0 h-full w-full ${o ? "" : "hidden"}`,
+					className: `absolute inset-0 h-full w-full ${c ? "" : "hidden"}`,
 					children: [/* @__PURE__ */ (0, b.jsx)("video", {
 						id: s,
-						className: `video-js vjs-default-skin h-full w-full ${l}`,
+						className: `video-js vjs-default-skin h-full w-full ${u}`,
 						muted: !0,
 						autoPlay: !0,
 						playsInline: !0,
 						preload: "auto",
 						ref: i,
-						style: { objectFit: c }
-					}), o && /* @__PURE__ */ (0, b.jsxs)("div", {
+						style: { objectFit: l }
+					}), c && /* @__PURE__ */ (0, b.jsxs)("div", {
 						className: "absolute bottom-4 left-4 z-30 flex items-center gap-2 rounded-full bg-slate-950/80 p-2 shadow-xl backdrop-blur-md",
 						children: [/* @__PURE__ */ (0, b.jsx)("button", {
 							type: "button",
@@ -390,11 +402,11 @@ function S({ activeItem: e, isMuted: t, onToggleMute: r, videoRef: i }) {
 						})]
 					})]
 				}),
-				!o && /* @__PURE__ */ (0, b.jsxs)(b.Fragment, { children: [/* @__PURE__ */ (0, b.jsx)("img", {
-					className: `animate-fade-in absolute inset-0 z-10 h-full w-full ${l}`,
+				!c && /* @__PURE__ */ (0, b.jsxs)(b.Fragment, { children: [/* @__PURE__ */ (0, b.jsx)("img", {
+					className: `animate-fade-in absolute inset-0 z-10 h-full w-full ${u}`,
 					src: e.src,
 					alt: e.title,
-					style: { objectFit: c }
+					style: { objectFit: l }
 				}), e.clickThroughUrl && /* @__PURE__ */ (0, b.jsx)("div", {
 					className: "absolute bottom-4 left-4 z-30 flex items-center gap-2 rounded-full bg-slate-950/80 p-2 shadow-xl backdrop-blur-md",
 					children: /* @__PURE__ */ (0, b.jsx)("button", {
@@ -414,17 +426,18 @@ function S({ activeItem: e, isMuted: t, onToggleMute: r, videoRef: i }) {
 }
 //#endregion
 //#region src/components/MediaStage.tsx
-function C({ activeItem: e, isMuted: t, onToggleMute: n, videoRef: r }) {
-	return /* @__PURE__ */ (0, b.jsx)(S, {
+function T({ activeItem: e, isMuted: t, onToggleMute: n, videoRef: r, aspectRatio: i }) {
+	return /* @__PURE__ */ (0, b.jsx)(w, {
 		activeItem: e,
 		isMuted: t,
 		onToggleMute: n,
-		videoRef: r
+		videoRef: r,
+		aspectRatio: i
 	});
 }
 //#endregion
 //#region src/components/InterestList.tsx
-function w({ interests: e }) {
+function E({ interests: e }) {
 	return e.length === 0 ? null : /* @__PURE__ */ (0, b.jsxs)("section", {
 		className: "mt-12 border-t border-slate-800 pt-6 transition-all duration-300",
 		children: [/* @__PURE__ */ (0, b.jsxs)("h2", {
@@ -463,7 +476,7 @@ function w({ interests: e }) {
 }
 //#endregion
 //#region src/components/InterestPopup.tsx
-function T({ isVisible: e, onInterest: t }) {
+function D({ isVisible: e, onInterest: t }) {
 	return /* @__PURE__ */ (0, b.jsx)("div", {
 		className: `absolute right-6 top-6 z-50 transform transition-all duration-300 ${e ? "translate-x-0 opacity-100" : "pointer-events-none translate-x-5 opacity-0"}`,
 		children: /* @__PURE__ */ (0, b.jsxs)("button", {
@@ -490,7 +503,7 @@ function T({ isVisible: e, onInterest: t }) {
 }
 //#endregion
 //#region src/components/LoadingScreen.tsx
-function E() {
+function O() {
 	return /* @__PURE__ */ (0, b.jsx)("div", {
 		className: "flex min-h-screen items-center justify-center bg-slate-950 text-white",
 		children: /* @__PURE__ */ (0, b.jsxs)("div", {
@@ -520,7 +533,7 @@ function E() {
 }
 //#endregion
 //#region src/hooks/useVideoJsLoader.ts
-function D() {
+function k() {
 	let [e, n] = r(() => !!window.videojs);
 	return t(() => {
 		let e = !0, t = document.getElementById(l);
@@ -547,39 +560,39 @@ function D() {
 }
 //#endregion
 //#region src/hooks/useMediaCarousel.ts
-function O(i = f) {
-	let a = D(), [o, s] = r(0), [c, l] = r(i.playlist[0].type === "video"), [u, d] = r(0), [p, m] = r(0), [h, g] = r(!1), [_, v] = r(!0), [y, b] = r(!1), [x, S] = r([]), C = n(null), w = n(null), T = n(o), E = n(0), O = n(null), k = n(null), A = n(null), j = n(null), M = n(null);
+function A(i = f) {
+	let a = k(), [o, s] = r(0), [c, l] = r(i.playlist[0].type === "video"), [u, d] = r(0), [p, m] = r(0), [h, g] = r(!1), [_, v] = r(!0), [y, b] = r(!1), [x, S] = r([]), [C, w] = r(i.settings.defaultAspectRatio ?? "16:9"), [T, E] = r(i.settings.showAspectRatioSelector ?? !0), D = n(null), O = n(null), A = n(o), j = n(0), M = n(null), N = n(null), P = n(null), F = n(null), I = n(null);
 	t(() => {
-		T.current = o;
+		A.current = o;
 	}, [o]);
-	let N = e(() => {
-		O.current &&= (window.clearTimeout(O.current), null), k.current &&= (window.clearTimeout(k.current), null);
-	}, []), P = e(() => {
-		j.current &&= (window.cancelAnimationFrame(j.current), null);
-	}, []), F = e(() => {
-		M.current &&= (window.clearTimeout(M.current), null);
-	}, []), I = e(() => {
-		A.current &&= (window.cancelAnimationFrame(A.current), null);
-	}, []), L = e(() => {
-		b(!1), k.current &&= (window.clearTimeout(k.current), null);
+	let L = e(() => {
+		M.current &&= (window.clearTimeout(M.current), null), N.current &&= (window.clearTimeout(N.current), null);
 	}, []), R = e(() => {
-		s((e) => (e + 1) % i.playlist.length);
-	}, [i.playlist.length]), z = e((e) => {
-		s(e);
+		F.current &&= (window.cancelAnimationFrame(F.current), null);
+	}, []), z = e(() => {
+		I.current &&= (window.clearTimeout(I.current), null);
 	}, []), B = e(() => {
-		b(!0), k.current && window.clearTimeout(k.current), k.current = window.setTimeout(L, i.settings.popupVisibleDurationMs);
-	}, [L]), V = e(() => {
-		let e = i.playlist[T.current];
-		S((t) => t.includes(e.title) ? t : [...t, e.title]), L();
-	}, [L]), H = e((e) => e < o ? 100 : e > o ? 0 : c ? u : p, [
+		P.current &&= (window.cancelAnimationFrame(P.current), null);
+	}, []), V = e(() => {
+		b(!1), N.current &&= (window.clearTimeout(N.current), null);
+	}, []), H = e(() => {
+		s((e) => (e + 1) % i.playlist.length);
+	}, [i.playlist.length]), U = e((e) => {
+		s(e);
+	}, []), W = e(() => {
+		b(!0), N.current && window.clearTimeout(N.current), N.current = window.setTimeout(V, i.settings.popupVisibleDurationMs);
+	}, [V]), G = e(() => {
+		let e = i.playlist[A.current];
+		S((t) => t.includes(e.title) ? t : [...t, e.title]), V();
+	}, [V]), K = e((e) => e < o ? 100 : e > o ? 0 : c ? u : p, [
 		o,
 		p,
 		c,
 		u
 	]);
 	t(() => {
-		if (!a || !window.videojs || !C.current) return;
-		let e = window.videojs.getPlayer("carousel_video") ?? window.videojs(C.current, {
+		if (!a || !window.videojs || !D.current) return;
+		let e = window.videojs.getPlayer("carousel_video") ?? window.videojs(D.current, {
 			autoplay: !0,
 			controls: !1,
 			fluid: !0,
@@ -590,66 +603,66 @@ function O(i = f) {
 			let t = e.duration();
 			t && d(e.currentTime() / t * 100);
 		}, n = () => {
-			i.playlist[T.current].type === "video" && e.error() && R();
+			i.playlist[A.current].type === "video" && e.error() && H();
 		}, r = () => g(!0), o = () => g(!1), s = () => v(e.muted());
-		return w.current = e, e.muted(!0), g(!e.paused()), v(!0), e.on("timeupdate", t), e.on("ended", R), e.on("error", n), e.on("play", r), e.on("pause", o), e.on("volumechange", s), () => {
-			e.off("timeupdate", t), e.off("ended", R), e.off("error", n), e.off("play", r), e.off("pause", o), e.off("volumechange", s), e.dispose(), w.current = null;
+		return O.current = e, e.muted(!0), g(!e.paused()), v(!0), e.on("timeupdate", t), e.on("ended", H), e.on("error", n), e.on("play", r), e.on("pause", o), e.on("volumechange", s), () => {
+			e.off("timeupdate", t), e.off("ended", H), e.off("error", n), e.off("play", r), e.off("pause", o), e.off("volumechange", s), e.dispose(), O.current = null;
 		};
-	}, [R, a]), t(() => {
+	}, [H, a]), t(() => {
 		if (!a) return;
-		N(), P(), I();
+		L(), R(), B();
 		let e = i.playlist[o];
-		if (A.current = window.requestAnimationFrame(() => {
-			b(!1), m(0), d(0), l(e.type === "video"), A.current = null;
-		}), e.type === "video") w.current && (F(), w.current.pause(), w.current.src([{
+		if (P.current = window.requestAnimationFrame(() => {
+			b(!1), m(0), d(0), l(e.type === "video"), P.current = null;
+		}), e.type === "video") O.current && (z(), O.current.pause(), O.current.src([{
 			src: e.src,
 			type: "video/mp4"
-		}]), w.current.ready(() => {
-			w.current?.play().catch((e) => {
-				e.name !== "AbortError" && R();
+		}]), O.current.ready(() => {
+			O.current?.play().catch((e) => {
+				e.name !== "AbortError" && H();
 			});
-		}), e.playDurationMs && e.playDurationMs > 0 && (M.current = window.setTimeout(() => {
-			R();
+		}), e.playDurationMs && e.playDurationMs > 0 && (I.current = window.setTimeout(() => {
+			H();
 		}, e.playDurationMs)));
 		else {
-			w.current?.pause();
+			O.current?.pause();
 			let e = i.settings.defaultImageDurationMs;
-			E.current = performance.now();
+			j.current = performance.now();
 			let t = (n) => {
-				let r = n - E.current;
+				let r = n - j.current;
 				if (m(Math.min(r / e * 100, 100)), r >= e) {
-					R();
+					H();
 					return;
 				}
-				j.current = window.requestAnimationFrame(t);
+				F.current = window.requestAnimationFrame(t);
 			};
-			j.current = window.requestAnimationFrame(t);
+			F.current = window.requestAnimationFrame(t);
 		}
-		return O.current = window.setTimeout(B, i.settings.popupDelayMs), () => {
-			N(), P(), F(), I();
+		return M.current = window.setTimeout(W, i.settings.popupDelayMs), () => {
+			L(), R(), z(), B();
 		};
 	}, [
-		P,
-		N,
-		I,
-		o,
 		R,
+		L,
+		B,
+		o,
+		H,
 		a,
-		B
+		W
 	]), t(() => () => {
-		N(), P(), F(), I();
+		L(), R(), z(), B();
 	}, [
-		P,
-		N,
-		I
+		R,
+		L,
+		B
 	]);
-	let U = e(() => {
-		let e = w.current;
+	let q = e(() => {
+		let e = O.current;
 		e && (e.paused() ? e.play().catch((e) => {
-			e.name !== "AbortError" && R();
+			e.name !== "AbortError" && H();
 		}) : e.pause());
-	}, [R]), W = e(() => {
-		let e = w.current;
+	}, [H]), J = e(() => {
+		let e = O.current;
 		if (!e) return;
 		let t = e.muted();
 		e.muted(!t), v(!t);
@@ -657,43 +670,47 @@ function O(i = f) {
 	return {
 		activeItem: i.playlist[o],
 		currentIndex: o,
-		getProgressPercentage: H,
+		getProgressPercentage: K,
 		interests: x,
 		isVideo: c,
 		isVideoJsLoaded: a,
 		isPlaying: h,
 		isMuted: _,
-		jumpToSlide: z,
-		markCurrentSlideInterested: V,
+		jumpToSlide: U,
+		markCurrentSlideInterested: G,
 		playlist: i.playlist,
 		showPopup: y,
-		togglePlayback: U,
-		toggleMute: W,
-		videoRef: C
+		togglePlayback: q,
+		toggleMute: J,
+		videoRef: D,
+		aspectRatio: C,
+		setAspectRatio: w,
+		showRatioControls: T,
+		setShowRatioControls: E
 	};
 }
 //#endregion
 //#region src/components/CarouselPlayer.tsx
-function k({ config: e, className: t = "" }) {
-	let { activeItem: n, interests: r, isVideoJsLoaded: i, isMuted: a, markCurrentSlideInterested: o, showPopup: s, toggleMute: c, videoRef: l } = O(e);
+function j({ config: e, className: t = "" }) {
+	let { activeItem: n, interests: r, isVideoJsLoaded: i, isMuted: a, markCurrentSlideInterested: o, showPopup: s, toggleMute: c, videoRef: l } = A(e);
 	return i ? /* @__PURE__ */ (0, b.jsx)("div", {
 		className: `flex min-h-screen flex-col items-center justify-center bg-slate-950 p-4 text-white ${t}`.trim(),
 		children: /* @__PURE__ */ (0, b.jsxs)("div", {
 			className: "w-full max-w-4xl",
 			children: [/* @__PURE__ */ (0, b.jsxs)("div", {
 				className: "group relative",
-				children: [/* @__PURE__ */ (0, b.jsx)(C, {
+				children: [/* @__PURE__ */ (0, b.jsx)(T, {
 					activeItem: n,
 					isMuted: a,
 					onToggleMute: c,
 					videoRef: l
-				}), /* @__PURE__ */ (0, b.jsx)(T, {
+				}), /* @__PURE__ */ (0, b.jsx)(D, {
 					isVisible: s,
 					onInterest: o
 				})]
-			}), /* @__PURE__ */ (0, b.jsx)(w, { interests: r })]
+			}), /* @__PURE__ */ (0, b.jsx)(E, { interests: r })]
 		})
-	}) : /* @__PURE__ */ (0, b.jsx)(E, {});
+	}) : /* @__PURE__ */ (0, b.jsx)(O, {});
 }
 //#endregion
-export { k as CarouselPlayer, C as MediaStage, O as useMediaCarousel };
+export { j as CarouselPlayer, T as MediaStage, A as useMediaCarousel };
