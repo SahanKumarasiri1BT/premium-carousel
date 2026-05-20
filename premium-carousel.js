@@ -360,7 +360,7 @@ function w({ activeItem: e, isMuted: t, onToggleMute: r, videoRef: i, aspectRati
 	let c = e.type === "video", l = e.resizeMode ?? "cover", u = x[l];
 	return /* @__PURE__ */ (0, b.jsx)("main", {
 		ref: o,
-		className: `mx-auto w-full ${S[a]} relative overflow-hidden rounded-3xl border border-slate-800 transition-all duration-500 ease-in-out`,
+		className: `mx-auto w-full ${S[a]} relative overflow-hidden rounded-3xl border border-slate-800 bg-black transition-all duration-500 ease-in-out`,
 		children: /* @__PURE__ */ (0, b.jsxs)("div", {
 			className: `relative w-full ${C[a]} transition-all duration-500 ease-in-out`,
 			children: [
