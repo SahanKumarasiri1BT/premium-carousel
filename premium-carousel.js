@@ -703,7 +703,8 @@ function j({ config: e, className: t = "" }) {
 					activeItem: n,
 					isMuted: a,
 					onToggleMute: c,
-					videoRef: l
+					videoRef: l,
+					aspectRatio: e?.settings.defaultAspectRatio ?? "16:9"
 				}), /* @__PURE__ */ (0, b.jsx)(D, {
 					isVisible: s,
 					onInterest: o
